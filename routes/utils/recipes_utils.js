@@ -38,8 +38,21 @@ async function getRecipeDetails(recipe_id) {
 }
 
 
+async function getRecipesPreview(recipes_ids_list) {
+    let promises = [];
+    recipes_ids_list.map((id) => {
+        promises.push(getRecipeDetails(id));
+    });
+    let info_res = await Promise.all(promises).then((values) => {
+        return values;
+    });
+    
+  }
+
+
 
 exports.getRecipeDetails = getRecipeDetails;
+exports.getRecipesPreview = getRecipesPreview;
 
 
 
