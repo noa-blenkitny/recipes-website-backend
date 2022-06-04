@@ -20,13 +20,24 @@ async function getRecipeInformation(recipe_id) {
 }
 
 async function getRandomRecipes(){
-    const response = await axios.get(`${api_domain}/random`,{
+    return await axios.get(`${api_domain}/random`,{
         params: {
             number: 10,
-            apiKey: process.env.spooncular_apiKey
+            apiKey: "90319972dc6242da800bd51717996a05"
+            //apiKey: process.env.spooncular_apiKey
+            //limitLicense=true&tags=ipsum ea proident amet occaecat
         }
     });
-    return response;
+}
+
+async function getsearchRecipes(){
+    return await axios.get(`${api_domain}/complexSearch?query=burger&cuisine=italian&diet=vegetarian&intolerances=gluten&number=10`, {
+        params: {
+            apiKey: "90319972dc6242da800bd51717996a05"
+            //apiKey: process.env.spooncular_apiKey
+            //{{baseUrl}}/recipes/complexSearch?query=burger&cuisine=italian&diet=vegetarian&intolerances=gluten&number=10
+        }
+    });
 }
 
 async function getRandomThreeRecipes(){
@@ -78,6 +89,7 @@ exports.getRecipeDetails = getRecipeDetails;
 exports.getRecipesPreview = getRecipesPreview;
 exports.getRandomRecipes = getRandomRecipes;
 exports.getRandomThreeRecipes = getRandomThreeRecipes;
+exports.getsearchRecipes = getsearchRecipes;
 
 
 

@@ -24,9 +24,21 @@ router.get("/:recipeId", async (req, res, next) => {
    try{
      let random_3_recipes = await recipes_utils.getRandomRecipes();
      res.send(random_3_recipes);
+     //res.send("im here");
    }catch (error){
       next(error);
    }
   });
 
+  /**
+ * This path returns search recipes
+ */
+router.get("/mysearch", async (req, res, next) => {
+  try {
+    const result = await recipes_utils.getsearchRecipes();;
+    res.send(result);
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;
