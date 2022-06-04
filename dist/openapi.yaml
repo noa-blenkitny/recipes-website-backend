@@ -133,6 +133,21 @@ paths:
                 $ref: '#/components/schemas/RecipePreview'
         "404":
           description: recipeId is not exists
+  # /recipes/random:
+  #   get:
+  #     tags:
+  #     - Recipes
+  #     summary: Return 3 random recipes preview details
+  #     description: Return 3 random recipes preview details
+  #     responses:
+  #       "200":
+  #         description: data about the recipe
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/RecipePreview'
+  #       "404":
+  #         description: recipeId is not exists
 components:
   schemas:
     User:
