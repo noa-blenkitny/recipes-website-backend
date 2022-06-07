@@ -109,7 +109,48 @@ paths:
           description: user is not authorized
       security:
       - cookieAuth: []
-  /recipes/{recipeId}:
+  /users/visited:
+    get:
+      tags:
+      - Users
+      summary: Return the last 3 watched recipes that were visited user
+      description: Get an array the last 3 watched recipes that were visited by a specific user
+      responses:
+        "200":
+          description: data about the user's 3 recently watched recipes returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipePreview'
+        "401":
+          description: user is not authorized
+      security:
+      - cookieAuth: []
+    post:
+      tags:
+      - Users
+      summary: save recipe in the watched recipes list of a user
+      description: save recipe in the watched recipes list of a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reciepeId:
+                  type: string
+                  description: reciepe's id which the user watched
+                  example: 716429
+      responses:
+        "200":
+          description: The Recipe successfully saved in watched list
+        "401":
+          description: user is not authorized
+      security:
+      - cookieAuth: []
+  /recipes/recipeId:
     get:
       tags:
       - Recipes
@@ -117,7 +158,7 @@ paths:
       description: Return preview details on recipe by his ID
       parameters:
       - name: recipeId
-        in: path
+        in: query
         description: recipe's id
         required: true
         style: simple
@@ -133,21 +174,23 @@ paths:
                 $ref: '#/components/schemas/RecipePreview'
         "404":
           description: recipeId is not exists
-  # /recipes/random:
-  #   get:
-  #     tags:
-  #     - Recipes
-  #     summary: Return 3 random recipes preview details
-  #     description: Return 3 random recipes preview details
-  #     responses:
-  #       "200":
-  #         description: data about the recipe
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/RecipePreview'
-  #       "404":
-  #         description: recipeId is not exists
+  /recipes/random:
+    get:
+      tags:
+      - Recipes
+      summary: Return 3 random recipes preview details
+      description: Return 3 random recipes preview details
+      responses:
+        "200":
+          description: data about the recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipePreview'
+        "404":
+          description: recipeId is not exists
+
+
 components:
   schemas:
     User:

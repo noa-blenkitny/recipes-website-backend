@@ -14,6 +14,7 @@ router.get("/recipeId", async (req, res, next) => {
     res.send(recipe);
     // res.send(req.query.recipeId)
   } catch (error) {
+    res.status(404)
     next(error);
   }
 });
@@ -24,8 +25,9 @@ router.get("/recipeId", async (req, res, next) => {
  router.get("/random", async (req, res, next) => {
    try{
      let random_3_recipes = await recipes_utils.getRandomThreeRecipes();
-     res.send(random_3_recipes);
+     res.status(200).send(random_3_recipes);
    }catch (error){
+      res.status(404)
       next(error);
    }
   });
@@ -33,12 +35,12 @@ router.get("/recipeId", async (req, res, next) => {
   /**
  * This path returns search recipes
  */
-router.get("/mysearch", async (req, res, next) => {
-  try {
-    const result = await recipes_utils.getsearchRecipes();;
-    res.send(result);
-  } catch (error) {
-    next(error);
-  }
-});
+// router.get("/mysearch", async (req, res, next) => {
+//   try {
+//     const result = await recipes_utils.getsearchRecipes();;
+//     res.send(result);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 module.exports = router;
