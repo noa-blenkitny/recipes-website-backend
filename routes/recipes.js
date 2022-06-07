@@ -8,10 +8,11 @@ router.get("/", (req, res) => res.send("im here"));
 /**
  * This path returns a full details of a recipe by its id
  */
-router.get("/:recipeId", async (req, res, next) => {
+router.get("/recipeId", async (req, res, next) => {
   try {
-    const recipe = await recipes_utils.getRecipeDetails(req.params.recipeId);
+    const recipe = await recipes_utils.getRecipeDetails(req.query.recipeId);
     res.send(recipe);
+    // res.send(req.query.recipeId)
   } catch (error) {
     next(error);
   }
@@ -22,9 +23,8 @@ router.get("/:recipeId", async (req, res, next) => {
  */
  router.get("/random", async (req, res, next) => {
    try{
-     let random_3_recipes = await recipes_utils.getRandomRecipes();
+     let random_3_recipes = await recipes_utils.getRandomThreeRecipes();
      res.send(random_3_recipes);
-     //res.send("im here");
    }catch (error){
       next(error);
    }
