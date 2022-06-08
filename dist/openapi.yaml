@@ -174,6 +174,30 @@ paths:
                 $ref: '#/components/schemas/RecipePreview'
         "404":
           description: recipeId is not exists
+  /recipes/fullDetailes:
+  get:
+    tags:
+    - Recipes
+    summary: Return full details on recipe by his ID
+    description: Return full details on recipe by his ID
+    parameters:
+    - name: recipeId
+      in: query
+      description: recipe's id
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: integer
+    responses:
+      "200":
+        description: data about the recipe
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeFullDetailes'
+      "404":
+        description: recipeId is not exists
   /recipes/random:
     get:
       tags:
@@ -285,4 +309,57 @@ components:
           type: boolean
           description: indication if the recipe is gluten free
           example: false
+    RecipeFullDetailes:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: recipe identifier
+          example: 102
+        title:
+          type: string
+          description: recipe name
+          example: Simple Macaroni and Cheese
+        image:
+          type: string
+          description: recipe image
+          format: URL
+          example: https://spoonacular.com/recipeimages/655455-566x370.jpg
+        readyInMinutes:
+          type: integer
+          description: the time takes to make this recipe
+          example: 45
+        popularity:
+          type: integer
+          description: how many likes got this recipe
+          example: 5987
+        vegetarian:
+          type: boolean
+          description: indication if the recipe is vegetarian
+          example: false
+        vegan:
+          type: boolean
+          description: indication if the recipe is vegan
+          example: false
+        glutenFree:
+          type: boolean
+          description: indication if the recipe is gluten free
+          example: false
+        extendedIngredients:
+          type: object
+          description: list of dicts of ingredients and their name, amount and unit
+          example: [{
+            "name": "bread",
+            "amount": 1,
+            "unit": "serving"}]
+        servings:
+          type: integer
+          description: how many servings in the recipe
+          example: 4
+        analyzedInstructions:
+          type: object
+          description: instructions of the recipe by steps
+          example: [{"name": "","steps": [{"number": 1,"step": "Preheat the oven to 200 degrees F."}]}]
+
+
   

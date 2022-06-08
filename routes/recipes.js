@@ -6,7 +6,7 @@ router.get("/", (req, res) => res.send("im here"));
 
 
 /**
- * This path returns a full details of a recipe by its id
+ * This path returns a preview details of a recipe by its id
  */
 router.get("/recipeId", async (req, res, next) => {
   try {
@@ -31,6 +31,54 @@ router.get("/recipeId", async (req, res, next) => {
       next(error);
    }
   });
+/**
+ * This path returns a full details of a recipe by its id
+ */
+ router.get("/fullDetailes", async (req, res, next) => {
+  try {
+    const recipe = await recipes_utils.getFullRecipeDetails(req.query.recipeId);
+    res.send(recipe);
+    // res.send(req.query.recipeId)
+  } catch (error) {
+    res.status(404)
+    next(error);
+  }
+});
+
+// router.get("/search/query/:searchQuery/number/:num", async (req, res, next) => {
+router.get("/search/query", async (req, res, next) => {
+  // const {searchQuery, num} = req.params;
+  //set search params
+  search_params = {};
+  // search_params.query = searchQuery;
+  // search_params.number = num;
+  // search_params.instructionsRequired =  true;
+  search_params.apiKey = process.env.spooncular_apiKey;
+
+  // //gives a defult number
+  // if (num != 5 && num != 10 && num != 15)
+  // {
+  //   search_params.number = 5;
+  // }
+  //check if query params exists (cuisine / diet / intolerances) and add them to search_params
+  // recipes_utils.extractQueryParams(req.query, search_params);
+  // recipes_utils.searchForRecipes(search_params)
+  
+  // .then((recipes) => res.send(recipes))
+  // .catch((err) => {
+  //   next(err);
+  // })
+  try {
+    const recipes = await recipes_utils.searchForRecipes(search_params)
+    res.send(recipes);
+  } catch (error) {
+    res.status(404)
+    next(error);
+  }
+  
+});
+
+
 
   /**
  * This path returns search recipes
@@ -43,4 +91,6 @@ router.get("/recipeId", async (req, res, next) => {
 //     next(error);
 //   }
 // });
+
+
 module.exports = router;

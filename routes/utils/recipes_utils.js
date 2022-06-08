@@ -1,4 +1,5 @@
 const axios = require("axios");
+const { type } = require("express/lib/response");
 const api_domain = "https://api.spoonacular.com/recipes";
 
 
@@ -87,6 +88,26 @@ async function getRecipesPreview(recipes_ids_list) {
     }
 }
 
+async function getFullRecipeDetails(recipe_id) {
+    let recipe_info = await getRecipeInformation(recipe_id);
+    let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree, extendedIngredients, servings, analyzedInstructions } = recipe_info.data;
+    extendedIngredients = extendedIngredients.map((ing) => ({name:ing.name, amount: ing.amount, unit:ing.unit}))
+    analyzedInstructions = analyzedInstructions.map((instruction) => ({name:instruction.name, steps: (instruction.steps).map((inStep)=> ({number:inStep.number, step:inStep.step}))}))
+    return {
+        id: id,
+        title: title,
+        readyInMinutes: readyInMinutes,
+        image: image,
+        popularity: aggregateLikes,
+        vegan: vegan,
+        vegetarian: vegetarian,
+        glutenFree: glutenFree,
+        extendedIngredients: extendedIngredients,
+        servings: servings,
+        analyzedInstructions: analyzedInstructions,
+        
+    }
+}
 async function getRandomThreeRecipes(){
     let random_pool = await getRandomRecipes();
     let filter_random_pool = random_pool.data.recipes.filter((random)=>(random.instructions!="") && (random.image && random.title))
@@ -96,7 +117,36 @@ async function getRandomThreeRecipes(){
     
     return extractPreviewRecipeDetailes([filter_random_pool[0], filter_random_pool[1], filter_random_pool[2]]);
 }
+ function extractQueryParams(query, search_params)
+ {
+     if ("cuisine" in query)
+     {
+         search_params.cuisine = query.cuisine;
+     }
+     if ("diet" in query)
+     {
+         search_params.diet = query.diet;
+     }
+     if ("intolerances" in query)
+     {
+         search_params.intolerances = query.intolerances;
+     }
+ }
 
+async function searchForRecipes(search_params)
+{
+    const response =  await axios.get(`${api_domain}/complexSearch`,{
+        params: {
+            // query: search_params.query, 
+            apiKey: search_params.apiKey,
+            // instructionsRequired: search_params.instructionsRequired, 
+            // number: search_params.number
+        }
+        // params :search_params
+    });
+
+    return response;
+}
 // async function getRandomThreeRecipes(){
 //     let random_pool = await getRandomRecipes();
 //     let filter_random_pool = random_pool.data.recipes.filter((random)=>(random.instructions!="") && (random.image && random.title))
@@ -150,6 +200,7 @@ exports.getRecipesPreview = getRecipesPreview;
 // exports.getRandomRecipes = getRandomRecipes;
 exports.getRandomThreeRecipes = getRandomThreeRecipes;
 // exports.getsearchRecipes = getsearchRecipes;
-
-
+exports.getFullRecipeDetails = getFullRecipeDetails;
+exports.extractQueryParams = extractQueryParams;
+exports.searchForRecipes = searchForRecipes;
 
