@@ -11,7 +11,8 @@ router.get("/", (req, res) => res.send("im here"));
 router.get("/recipeId", async (req, res, next) => {
   try {
     const recipe = await recipes_utils.getRecipeDetails(req.query.recipeId);
-    res.send(recipe);
+    const result = recipes_utils.getRecipeDetails(recipe);
+    res.send(result);
     // res.send(req.query.recipeId)
   } catch (error) {
     res.status(404)
@@ -45,32 +46,28 @@ router.get("/recipeId", async (req, res, next) => {
   }
 });
 
-// router.get("/search/query/:searchQuery/number/:num", async (req, res, next) => {
-router.get("/search/query", async (req, res, next) => {
-  // const {searchQuery, num} = req.params;
+router.get("/search/query/:searchQuery/number/:num", async (req, res, next) => {
+//router.get("/search/query", async (req, res, next) => {
+  const {searchQuery, num} = req.params;
   //set search params
   search_params = {};
-  // search_params.query = searchQuery;
-  // search_params.number = num;
-  // search_params.instructionsRequired =  true;
+  search_params.query = searchQuery;
+  search_params.number = num;
+  search_params.instructionsRequired =  true;
   search_params.apiKey = process.env.spooncular_apiKey;
 
-  // //gives a defult number
-  // if (num != 5 && num != 10 && num != 15)
-  // {
-  //   search_params.number = 5;
-  // }
+  //gives a defult number
+  if (num != 5 && num != 10 && num != 15)
+  {
+    search_params.number = 5;
+  }
   //check if query params exists (cuisine / diet / intolerances) and add them to search_params
-  // recipes_utils.extractQueryParams(req.query, search_params);
-  // recipes_utils.searchForRecipes(search_params)
-  
-  // .then((recipes) => res.send(recipes))
-  // .catch((err) => {
-  //   next(err);
-  // })
+  recipes_utils.extractQueryParams(req.query, search_params);
+
   try {
-    const recipes = await recipes_utils.searchForRecipes(search_params)
-    res.send(recipes);
+    const recipes = await recipes_utils.searchForRecipes(search_params);
+    const recipes_data = await recipes_utils.getSearchRecipeDetails(recipes);
+    res.send(recipes_data);
   } catch (error) {
     res.status(404)
     next(error);
@@ -78,19 +75,6 @@ router.get("/search/query", async (req, res, next) => {
   
 });
 
-
-
-  /**
- * This path returns search recipes
- */
-// router.get("/mysearch", async (req, res, next) => {
-//   try {
-//     const result = await recipes_utils.getsearchRecipes();;
-//     res.send(result);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 
 module.exports = router;

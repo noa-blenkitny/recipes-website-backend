@@ -41,7 +41,6 @@ function extractPreviewRecipeDetailes(recipes_info)
         return {
             id: id,
             title: title,
-            image: image,
             readyInMinutes: readyInMinutes,
             image: image,
             popularity: aggregateLikes,
@@ -86,6 +85,16 @@ async function getRecipesPreview(recipes_ids_list) {
         glutenFree: glutenFree,
         
     }
+}
+
+async function getSearchRecipeDetails(serach_ingp) {
+    
+    let data = serach_ingp.data;
+    let result = data.results;
+    let recipes_id = result.map((res) => (res.id));
+    let recipe_preview = await getRecipesPreview(recipes_id);
+    return recipe_preview;
+   
 }
 
 async function getFullRecipeDetails(recipe_id) {
@@ -136,71 +145,18 @@ async function getRandomThreeRecipes(){
 async function searchForRecipes(search_params)
 {
     const response =  await axios.get(`${api_domain}/complexSearch`,{
-        params: {
-            // query: search_params.query, 
-            apiKey: search_params.apiKey,
-            // instructionsRequired: search_params.instructionsRequired, 
-            // number: search_params.number
-        }
-        // params :search_params
+        params: search_params
+        
     });
 
     return response;
 }
-// async function getRandomThreeRecipes(){
-//     let random_pool = await getRandomRecipes();
-//     let filter_random_pool = random_pool.data.recipes.filter((random)=>(random.instructions!="") && (random.image && random.title))
-//     if(filter_random_pool.length < 3){
-//         return getRandomThreeRecipes();
-//     }
-//     filter_random_pool.map((info) => {
-//         info.id
-//     });
-//     return getRecipesPreview(filter_random_pool);
-// }
-
-
-// async function getsearchRecipes(){
-//     return await axios.get(`${api_domain}/complexSearch?query=burger&cuisine=italian&diet=vegetarian&intolerances=gluten&number=10`, {
-//         params: {
-//             // apiKey: "90319972dc6242da800bd51717996a05"
-//             apiKey: process.env.spooncular_apiKey
-//             //{{baseUrl}}/recipes/complexSearch?query=burger&cuisine=italian&diet=vegetarian&intolerances=gluten&number=10
-//         }
-//     });
-// }
-
-// async function getRandomThreeRecipes(){
-//     let random_pool = await getRandomRecipes();
-//     let filter_random_pool = random_pool.data.recipes.filter((random)=>(random.instructions!="") && (random.image && random.title))
-//     if(filter_random_pool.length < 3){
-//         return getRandomThreeRecipes();
-//     }
-//     filter_random_pool.map((info) => {
-//         info.id
-//     });
-//     return getRecipesPreview(filter_random_pool);
-// }
-
-// async function getRecipesPreview(recipes_ids_list) {
-//     let promises = [];
-//     recipes_ids_list.map((id) => {
-//         promises.push(getRecipeDetails(id));
-//     });
-//     let info_res = await Promise.all(promises).then((values) => {
-//         return values;
-//     });
-    
-//   }
-
 
 
 exports.getRecipeDetails = getRecipeDetails;
 exports.getRecipesPreview = getRecipesPreview;
-// exports.getRandomRecipes = getRandomRecipes;
 exports.getRandomThreeRecipes = getRandomThreeRecipes;
-// exports.getsearchRecipes = getsearchRecipes;
 exports.getFullRecipeDetails = getFullRecipeDetails;
 exports.extractQueryParams = extractQueryParams;
 exports.searchForRecipes = searchForRecipes;
-
+exports.getSearchRecipeDetails = getSearchRecipeDetails;

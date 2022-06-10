@@ -19,10 +19,24 @@ async function getVisitedRecipes(user_id){
     return recipes_id;
 }
 
+async function createrecipe(details_dict){
+   
+    await DButils.execQuery(`
+    INSERT INTO recipes VALUES ('0','${details_dict.user_id}','${details_dict.title}', '${details_dict.readyInMinutes}', '${details_dict.image}',
+    '${details_dict.popularity}', '${details_dict.vegan}','${details_dict.vegetarian}','${details_dict.glutenFree}','${details_dict.servings}','${details_dict.extendedIngredients}','${details_dict.analyzedInstructions}');`
+  );
+}
 
+async function getmyRecipes(user_id){
+    const recipes_preview = await DButils.execQuery(`select recipe_id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree from recipes where user_id='${user_id}'`);
+    return recipes_preview;
+}
 
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
 
 exports.markAsVisited = markAsVisited;
 exports.getVisitedRecipes = getVisitedRecipes;
+
+exports.createrecipe = createrecipe;
+exports.getmyRecipes = getmyRecipes;

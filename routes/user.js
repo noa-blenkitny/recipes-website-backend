@@ -71,12 +71,53 @@ router.get('/favorites', async (req,res,next) => {
  router.get('/visited', async (req,res,next) => {
   try{
     const user_id = req.session.user_id;
-    let visited_recipes = {};
     const recipes_id = await user_utils.getVisitedRecipes(user_id);
     let recipes_id_array = [];
     recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
     const results = await recipe_utils.getRecipesPreview(recipes_id_array);
     res.status(200).send(results);
+  } catch(error){
+    next(error); 
+  }
+});
+
+/**
+ * This path create recipe in the data base
+ */
+ router.post('/createrecipe', async (req,res,next) => {
+  try{
+    let details = {};
+    details.user_id = req.session.user_id;
+    details.title = req.body.title;
+    details.readyInMinutes = req.body.readyInMinutes;
+    details.image = req.body.image;
+    details.popularity = req.body.popularity;
+    details.vegan = req.body.vegan;
+    details.vegetarian = req.body.vegetarian;
+    details.glutenFree = req.body.glutenFree;
+    details.extendedIngredients = req.body.extendedIngredients;
+    details.servings = req.body.servings;
+    details.analyzedInstructions = req.body.analyzedInstructions;
+
+
+    await user_utils.createrecipe(details);
+    res.status(200).send("The Recipe successfully saved");
+    } catch(error){
+    next(error);
+  }
+});
+
+/**
+ * This path returns the visited recipes that were saved by the logged-in user
+ */
+ router.get('/myrecipes', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    const recipes_preview = await user_utils.getmyRecipes(user_id);
+    // let recipes_id_array = [];
+    // recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
+    // const results = await recipe_utils.getRecipesPreview(recipes_id_array);
+    res.status(200).send(recipes_preview);
   } catch(error){
     next(error); 
   }
