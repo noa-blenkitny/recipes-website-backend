@@ -103,7 +103,7 @@ router.get('/favorites', async (req,res,next) => {
     await user_utils.createrecipe(details);
     res.status(200).send("The Recipe successfully saved");
     } catch(error){
-    next(error);
+      next(error);
   }
 });
 

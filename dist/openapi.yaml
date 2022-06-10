@@ -210,10 +210,98 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RecipePreview'
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipePreview'
         "404":
           description: recipeId is not exists
-
+  /recipes/search/query/:searchQuery/number/:num:
+    get:
+      tags:
+      - Recipes
+      summary: Retrive recipes by key words
+      description: Retrive recipes by key words
+      parameters:
+      - name: searchQuery
+        in: path
+        description: search query
+        required: true
+        schema:
+          type: string
+      - name: num
+        in: path
+        description: the number of recipes that retrive
+        required: true
+        schema:
+          type: int
+      - name: cuisine
+        in: query
+        description: The cuisine(s) of the recipes. One or more, comma separated
+        required: false
+        schema:
+          type: string
+      - name: diet
+        in: query
+        description: The diet for which the recipes must be suitable.
+        explode: false
+        schema:
+          type: string
+      - name: intolerances
+        in: query
+        description: A comma-separated list of intolerances. All recipes returned must not contain ingredients that are not suitable for people with the intolerances entered.
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: data about the recipe
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipePreview'
+        "404":
+          description: The requested recipe was not found
+  /users/createrecipe:
+    post:
+      tags:
+      - Users
+      summary: user create a recipe
+      description: A JSON object contains all the details about the new recipe.
+      requestBody:
+        description: recipe item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecipeFullDetailes'
+        required: true
+      responses:
+        "201":
+          description: A new recipe has been created
+        "400":
+          description: wrong input parameters
+      security:
+      - cookieAuth: []
+  /users/myrecipes:
+    get:
+      tags:
+      - Users
+      summary: Return the recipes that created by the user.
+      description: Get an array of recipes that were created by a specific user
+      responses:
+        "200":
+          description: data about the user's recipes returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RecipePreview'
+        "401":
+          description: user is not authorized
+      security:
+      - cookieAuth: []
 
 components:
   schemas:
