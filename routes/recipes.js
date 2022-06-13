@@ -52,6 +52,7 @@ router.get("/search/query/:searchQuery/number/:num", async (req, res, next) => {
   search_params.number = num;
   search_params.instructionsRequired =  true;
   search_params.apiKey = process.env.spooncular_apiKey;
+  search_params.addRecipeInformation = true;
 
   //gives a defult number
   if (num != 5 && num != 10 && num != 15)
@@ -63,8 +64,16 @@ router.get("/search/query/:searchQuery/number/:num", async (req, res, next) => {
 
   try {
     const recipes = await recipes_utils.searchForRecipes(search_params);
-    const recipes_data = await recipes_utils.getSearchRecipeDetails(recipes);
-    res.status(200).send(recipes_data);
+    // const recipes_data = await recipes_utils.getSearchRecipeDetails(recipes);
+    if (recipes.length === 0)
+    {
+      res.status(204).send("no recipes found for this query");
+    }
+    else
+    {
+      res.status(200).send(recipes);
+    }
+    
   } catch (error) {
     next(error);
   }

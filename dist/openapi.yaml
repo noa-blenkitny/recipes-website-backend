@@ -230,7 +230,7 @@ paths:
           type: string
       - name: num
         in: path
-        description: the number of recipes that retrive
+        description: the number of recipes to retrive
         required: true
         schema:
           type: int
@@ -267,8 +267,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/RecipePreview'
-        "404":
-          description: The requested recipe was not found
+        "204":
+          description: no recipes were found for this query
   /users/createrecipe:
     post:
       tags:
@@ -304,6 +304,35 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/RecipePreview'
+        "401":
+          description: user is not authorized
+      security:
+      - cookieAuth: []
+  /users/myrecipes/fulldetailes:
+    get:
+      tags:
+      - Users
+      summary: Return the full detailes of therecipe that created by the user with the specific recipeID.
+      description: Get full detailes of the recipe that were created by a specific user with specific recipeID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reciepeId:
+                  type: string
+                  description: reciepe's id which the user saved
+                  example: 716429
+      responses:
+        "200":
+          description: data about the recipe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecipeFullDetailes'
+        "204":
+          description: invalid recipeID
         "401":
           description: user is not authorized
       security:

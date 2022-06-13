@@ -69,6 +69,14 @@ async function getRecipesPreview(recipes_ids_list) {
     let info_res = await Promise.all(promises);
     return extractPreviewRecipeDetailes(info_res) 
   }
+async function getRecipesFullDetailes(recipes_ids_list) {
+let promises = [];
+recipes_ids_list.map((id) => {
+    promises.push(getFullRecipeDetails(id));
+});
+let info_res = await Promise.all(promises);
+return info_res
+}
 
   async function getRecipeDetails(recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
@@ -88,11 +96,14 @@ async function getRecipesPreview(recipes_ids_list) {
 }
 
 async function getSearchRecipeDetails(serach_ingp) {
-    
     let data = serach_ingp.data;
     let result = data.results;
+    let total_results = data.totalResults;
     let recipes_id = result.map((res) => (res.id));
-    let recipe_preview = await getRecipesPreview(recipes_id);
+    //if we want the instructions and the preview
+    let recipe_preview = await getRecipesFullDetailes(recipes_id)
+    //if we only need the preview
+    // let recipe_preview = await getRecipesPreview(recipes_id);
     return recipe_preview;
    
 }
@@ -101,6 +112,26 @@ async function getFullRecipeDetails(recipe_id) {
     let recipe_info = await getRecipeInformation(recipe_id);
     let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree, extendedIngredients, servings, analyzedInstructions } = recipe_info.data;
     extendedIngredients = extendedIngredients.map((ing) => ({name:ing.name, amount: ing.amount, unit:ing.unit}))
+    analyzedInstructions = analyzedInstructions.map((instruction) => ({name:instruction.name, steps: (instruction.steps).map((inStep)=> ({number:inStep.number, step:inStep.step}))}))
+    return {
+        id: id,
+        title: title,
+        readyInMinutes: readyInMinutes,
+        image: image,
+        popularity: aggregateLikes,
+        vegan: vegan,
+        vegetarian: vegetarian,
+        glutenFree: glutenFree,
+        extendedIngredients: extendedIngredients,
+        servings: servings,
+        analyzedInstructions: analyzedInstructions,
+        
+    }
+}
+function extractFullRecipeDetailsForSearch(recipe_full_detailes) {
+    let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree, extendedIngredients, servings, analyzedInstructions } = recipe_full_detailes;
+    // extendedIngredients = extendedIngredients.map((ing) => ({name:ing.name, amount: ing.amount, unit:ing.unit}))
+    // console.log("after ing map");
     analyzedInstructions = analyzedInstructions.map((instruction) => ({name:instruction.name, steps: (instruction.steps).map((inStep)=> ({number:inStep.number, step:inStep.step}))}))
     return {
         id: id,
@@ -152,8 +183,25 @@ async function searchForRecipes(search_params)
         params: search_params
         
     });
+    let data = response.data;
+    let result = data.results;
+    let filter_search_pool = result.filter((recipe)=>(recipe.instructions!=""))
+    let total_results = data.totalResults;
+    if (search_params.number > filter_search_pool.length && total_results > search_params.number )
+    {
+        search_params.number++;
+        searchForRecipes(search_params)
+    }
+    // let recipes_id = filter_search_pool.map((res) => (res.id));
+     let recipe_full_detailes = filter_search_pool.map((res) => (extractFullRecipeDetailsForSearch(res)));
 
-    return response;
+    //if we want the instructions and the preview
+    // let recipe_full_detailes = await getRecipesFullDetailes(recipes_id)
+    
+    //if we only need the preview
+    // let recipe_preview = await getRecipesPreview(recipes_id);
+    return recipe_full_detailes;
+    // return filter_search_pool;
 }
 
 

@@ -31,7 +31,10 @@ async function getmyRecipes(user_id){
     const recipes_preview = await DButils.execQuery(`select recipe_id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree from recipes where user_id='${user_id}'`);
     return recipes_preview;
 }
-
+async function getmyRecipesFullDetailes(user_id, recipe_id){
+    const recipes_preview = await DButils.execQuery(`select * from recipes where user_id='${user_id}' and recipe_id = '${recipe_id}'`);
+    return recipes_preview;
+}
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
 
@@ -40,3 +43,4 @@ exports.getVisitedRecipes = getVisitedRecipes;
 
 exports.createrecipe = createrecipe;
 exports.getmyRecipes = getmyRecipes;
+exports.getmyRecipesFullDetailes= getmyRecipesFullDetailes;
