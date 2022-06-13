@@ -252,6 +252,12 @@ paths:
         explode: false
         schema:
           type: string
+      - name: sort
+        in: query
+        description: The strategy to sort recipes by
+        explode: false
+        schema:
+          type: string
       responses:
         "200":
           description: data about the recipe

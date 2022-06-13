@@ -140,6 +140,10 @@ async function getRandomThreeRecipes(){
      {
          search_params.intolerances = query.intolerances;
      }
+     if ("sort" in query)
+     {
+         search_params.sort = query.sort;
+     }
  }
 
 async function searchForRecipes(search_params)
