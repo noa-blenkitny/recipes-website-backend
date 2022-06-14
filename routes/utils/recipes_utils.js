@@ -150,7 +150,7 @@ function extractFullRecipeDetailsForSearch(recipe_full_detailes) {
 }
 async function getRandomThreeRecipes(){
     let random_pool = await getRandomRecipes();
-    let filter_random_pool = random_pool.data.recipes.filter((random)=>(random.instructions!="") && (random.image && random.title))
+    let filter_random_pool = random_pool.data.recipes.filter((random)=>(random.instructions!="") && (random.image && random.image != ""))
     if(filter_random_pool.length < 3){
         return getRandomThreeRecipes();
     }
