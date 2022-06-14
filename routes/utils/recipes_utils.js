@@ -130,8 +130,6 @@ async function getFullRecipeDetails(recipe_id) {
 }
 function extractFullRecipeDetailsForSearch(recipe_full_detailes) {
     let { id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree, extendedIngredients, servings, analyzedInstructions } = recipe_full_detailes;
-    // extendedIngredients = extendedIngredients.map((ing) => ({name:ing.name, amount: ing.amount, unit:ing.unit}))
-    // console.log("after ing map");
     analyzedInstructions = analyzedInstructions.map((instruction) => ({name:instruction.name, steps: (instruction.steps).map((inStep)=> ({number:inStep.number, step:inStep.step}))}))
     return {
         id: id,
