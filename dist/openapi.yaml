@@ -517,11 +517,32 @@ components:
           example: false
         extendedIngredients:
           type: object
-          description: list of dicts of ingredients and their name, amount and unit
+          description: list of dicts of ingredients 
           example: [{
-            "name": "bread",
-            "amount": 1,
-            "unit": "serving"}]
+            "id": 9152,
+            "aisle": "Produce",
+            "image": "lemon-juice.jpg",
+            "consistency": "LIQUID",
+            "name": "lemon juice",
+            "nameClean": "lemon juice",
+            "original": "2 tablespoons lemon juice",
+            "originalName": "lemon juice",
+            "amount": 2,
+            "unit": "tablespoons",
+            "meta": [],
+            "measures": {
+                "us": {
+                    "amount": 2,
+                    "unitShort": "Tbsps",
+                    "unitLong": "Tbsps"
+                },
+                "metric": {
+                    "amount": 2,
+                    "unitShort": "Tbsps",
+                    "unitLong": "Tbsps"
+                }
+            }
+        }],
         servings:
           type: integer
           description: how many servings in the recipe
@@ -529,7 +550,48 @@ components:
         analyzedInstructions:
           type: object
           description: instructions of the recipe by steps
-          example: [{"name": "","steps": [{"number": 1,"step": "Preheat the oven to 200 degrees F."}]}]
+          example: [
+              {
+                "name": "",
+                "steps": [
+                    {
+                        "number": 1,
+                        "step": "Stir mayonnaise, lemon juice, garlic, and paprikas together in a bowl. Chill aioli until serving.",
+                        "ingredients": [
+                            {
+                                "id": 9152,
+                                "name": "lemon juice",
+                                "localizedName": "lemon juice",
+                                "image": "lemon-juice.jpg"
+                            },
+                            {
+                                "id": 4025,
+                                "name": "mayonnaise",
+                                "localizedName": "mayonnaise",
+                                "image": "mayonnaise.png"
+                            },
+                            {
+                                "id": 11215,
+                                "name": "garlic",
+                                "localizedName": "garlic",
+                                "image": "garlic.png"
+                            },
+                            {
+                                "id": 93758,
+                                "name": "aioli",
+                                "localizedName": "aioli",
+                                "image": "aioli.jpg"
+                            }
+                        ],
+                        "equipment": [
+                            {
+                                "id": 404783,
+                                "name": "bowl",
+                                "localizedName": "bowl",
+                                "image": "bowl.jpg"
+                            }
+                        ]
+              },]
     FamilyRecipeFullDetailes:
       type: object
       properties:
