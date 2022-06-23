@@ -11,11 +11,11 @@ router.post("/Register", async (req, res, next) => {
     // username exists
     let user_details = {
       username: req.body.username,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      country: req.body.country,
+      //firstname: req.body.firstname,
+      //lastname: req.body.lastname,
+      //country: req.body.country,
       password: req.body.password,
-      email: req.body.email,
+      //email: req.body.email,
       // profilePic: req.body.profilePic
     }
     let users = [];
@@ -30,8 +30,9 @@ router.post("/Register", async (req, res, next) => {
       parseInt(process.env.bcrypt_saltRounds)
     );
     await DButils.execQuery(
-      `INSERT INTO users VALUES ('0','${user_details.username}', '${user_details.firstname}', '${user_details.lastname}',
-      '${user_details.country}', '${hash_password}', '${user_details.email}')`
+      //`INSERT INTO users VALUES ('0','${user_details.username}', '${user_details.firstname}', '${user_details.lastname}',
+      //'${user_details.country}', '${hash_password}', '${user_details.email}')`
+      `INSERT INTO users VALUES ('0','${user_details.username}', '${hash_password}')`
     );
     res.status(201).send({ message: "user created", success: true });
   } catch (error) {

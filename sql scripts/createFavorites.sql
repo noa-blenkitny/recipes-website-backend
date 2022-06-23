@@ -1,4 +1,4 @@
-
+-- DROP TABLE mydb.FavoriteRecipes
 
 
 CREATE TABLE IF NOT EXISTS mydb.FavoriteRecipes(

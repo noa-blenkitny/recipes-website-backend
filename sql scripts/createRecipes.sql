@@ -1,3 +1,5 @@
+-- DROP TABLE mydb.recipes
+
 CREATE TABLE IF NOT EXISTS mydb.recipes(
     recipe_id int AUTO_INCREMENT PRIMARY KEY,
     user_id INT,

@@ -396,18 +396,18 @@ components:
           type: string
           description: username conatins between 3 to 8 letters only
           example: my_name
-        firstname:
-          type: string
-          description: user's first name
-          example: my_first_name
-        lastname:
-          type: string
-          description: user's last name
-          example: my_last_name
-        country:
-          type: string
-          description: user's country
-          example: Israel
+        # firstname:
+        #   type: string
+        #   description: user's first name
+        #   example: my_first_name
+        # lastname:
+        #   type: string
+        #   description: user's last name
+        #   example: my_last_name
+        # country:
+        #   type: string
+        #   description: user's country
+        #   example: Israel
         password:
           maxLength: 10
           minLength: 5
@@ -416,11 +416,11 @@ components:
             is a number and a special char
           format: password
           example: my_name@12
-        email:
-          pattern: email
-          type: string
-          description: user's email
-          example: my_name12@gmail.com
+        # email:
+        #   pattern: email
+        #   type: string
+        #   description: user's email
+        #   example: my_name12@gmail.com
         # image-url:
         #   pattern: URL
         #   type: string
@@ -591,7 +591,7 @@ components:
                                 "image": "bowl.jpg"
                             }
                         ]
-              },]
+              },]}]
     FamilyRecipeFullDetailes:
       type: object
       properties:
