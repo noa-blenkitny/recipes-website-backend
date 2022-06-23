@@ -69,12 +69,8 @@ router.get('/favorites', async (req,res,next) => {
  * This path returns the visited recipes that were saved by the logged-in user
  */
  router.get('/visited', async (req,res,next) => {
-  console.log("here");
   try{
-    console.log("here");
     const user_id = req.session.user_id;
-    console.log(user_id);
-    console.log("here");
     const recipes_id = await user_utils.getVisitedRecipes(user_id);
     let recipes_id_array = [];
     recipes_id.map((element) => recipes_id_array.push(element.recipe_id)); //extracting the recipe ids into array
