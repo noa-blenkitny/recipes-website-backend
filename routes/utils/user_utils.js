@@ -43,14 +43,38 @@ async function getFamilyRecipes(user_id){
     const recipes_preview = await DButils.execQuery(`select recipe_id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree from recipes where user_id='${user_id}'`);
     return recipes_preview;
 }
+async function checkIfFavorite(id, user_id){
+    if (user_id)
+    {
+        const isFavorite = await DButils.execQuery(`select recipe_id from FavoriteRecipes where user_id='${user_id}' and recipe_id = '${id}'`);
+        if (isFavorite.length === 0)
+        {
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
+async function checkIfVisited(id, user_id){
+    if (user_id)
+    {
+        const isVisited = await DButils.execQuery(`select recipe_id from VisitedRecipes where user_id='${user_id}' and recipe_id = '${id}'`);
+        if (isVisited.length === 0)
+        {
+            return false;
+        }
+        return true;
+    }
+    return false;
+}
 exports.markAsFavorite = markAsFavorite;
 exports.getFavoriteRecipes = getFavoriteRecipes;
-
 exports.markAsVisited = markAsVisited;
 exports.getVisitedRecipes = getVisitedRecipes;
-
 exports.createrecipe = createrecipe;
 exports.getmyRecipes = getmyRecipes;
 exports.getmyRecipesFullDetailes= getmyRecipesFullDetailes;
 exports.getFamilyRecipesFullDetailes = getFamilyRecipesFullDetailes;
 exports.getFamilyRecipes = getFamilyRecipes;
+exports.checkIfFavorite = checkIfFavorite;
+exports.checkIfVisited = checkIfVisited;
