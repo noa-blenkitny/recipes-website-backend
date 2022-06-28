@@ -40,7 +40,7 @@ async function getFamilyRecipesFullDetailes(user_id, recipe_id){
     return recipes_preview;
 }
 async function getFamilyRecipes(user_id){
-    const recipes_preview = await DButils.execQuery(`select recipe_id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree from recipes where user_id='${user_id}'`);
+    const recipes_preview = await DButils.execQuery(`select recipe_id, title, readyInMinutes, image, aggregateLikes, vegan, vegetarian, glutenFree from familyRecipes where user_id='${user_id}'`);
     return recipes_preview;
 }
 async function checkIfFavorite(id, user_id){

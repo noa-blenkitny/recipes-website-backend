@@ -361,22 +361,19 @@ paths:
           description: user is not authorized
       security:
       - cookieAuth: []
-  /users/familyrecipes/fulldetailes:
+  /users/familyrecipes/fulldetailes/:recipeId:
     get:
       tags:
       - Users
       summary: Return the full detailes of the user's family recipe with the specific recipeID.
       description: Get full detailes of the user's family recipe with the specific recipeID.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                reciepeId:
-                  type: string
-                  description: reciepe's id which the user saved
-                  example: 716429
+      parameters:
+      - name: recipeId
+        in: path
+        description: reciepe's id which the user saved as Family recipes
+        required: true
+        schema:
+          type: integer
       responses:
         "200":
           description: data about the recipe
