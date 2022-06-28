@@ -316,22 +316,19 @@ paths:
           description: user is not authorized
       security:
       - cookieAuth: []
-  /users/myrecipes/fulldetailes:
+  /users/myrecipes/fulldetailes/:recipeId:
     get:
       tags:
       - Users
       summary: Return the full detailes of therecipe that created by the user with the specific recipeID.
       description: Get full detailes of the recipe that were created by a specific user with specific recipeID.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                reciepeId:
-                  type: string
-                  description: reciepe's id which the user saved
-                  example: 716429
+      parameters:
+      - name: recipeId
+        in: path
+        description: reciepe's id which the user saved
+        required: true
+        schema:
+          type: integer
       responses:
         "200":
           description: data about the recipe
@@ -559,7 +556,7 @@ components:
                     "unitLong": "Tbsps"
                 }
             }
-        }],
+        }]
         servings:
           type: integer
           description: how many servings in the recipe
