@@ -23,7 +23,7 @@ async function createrecipe(details_dict){
    
     await DButils.execQuery(`
     INSERT INTO recipes VALUES ('0','${details_dict.user_id}','${details_dict.title}', '${details_dict.readyInMinutes}', '${details_dict.image}',
-    '${details_dict.popularity}', '${details_dict.vegan}','${details_dict.vegetarian}','${details_dict.glutenFree}','${details_dict.servings}','${details_dict.extendedIngredients}','${details_dict.analyzedInstructions}');`
+    0, '${details_dict.vegan}','${details_dict.vegetarian}','${details_dict.glutenFree}','${details_dict.servings}','${details_dict.extendedIngredients}','${details_dict.analyzedInstructions}');`
   );
 }
 
