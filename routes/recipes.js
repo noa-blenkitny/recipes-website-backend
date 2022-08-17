@@ -63,14 +63,16 @@ router.get("/fullDetailes", async (req, res, next) => {
       req.session.user_id
     );
     res.send(recipe);
-    // res.send(req.query.recipeId)
   } catch (error) {
-    next(error);
+    if (error.response) {
+      next(error.response);
+    } else {
+      next(error);
+    }
   }
 });
 
 router.get("/search/query/:searchQuery/number/:num", async (req, res, next) => {
-  //router.get("/search/query", async (req, res, next) => {
   const { searchQuery, num } = req.params;
   //set search params
   search_params = {};
@@ -92,7 +94,6 @@ router.get("/search/query/:searchQuery/number/:num", async (req, res, next) => {
       search_params,
       req.session.user_id
     );
-    // const recipes_data = await recipes_utils.getSearchRecipeDetails(recipes);
     if (recipes.length === 0) {
       res.status(204).send("no recipes found for this query");
     } else {
