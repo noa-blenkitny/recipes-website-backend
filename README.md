@@ -1,8 +1,31 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7966313&assignment_repo_type=AssignmentRepo)
-<br />
-This is a recipes website that we developed as part of Web development enviourmnets course.
-<br />
-This is the backend of the project that we implemented with Node.js.
-<br />
-Hope you enjoy :)
+# Recipe Website
 
+Recipe Website is a full-stack web application built with Node.js, Vue.js, and SQL. It offers users a platform to:
+
+- **Sign Up/Login:** Secure access to the platform.
+- **Search Recipes:** Find recipes by keywords, categories, or ingredients.
+- **Create Recipes:** Add personalized recipes with ingredients and instructions.
+- **Access History:** View previously seen recipes.
+
+## Features
+
+- **Personal Dashboard:** Manage created recipes and viewed history.
+- **Save Favorites:** Keep track of favorite recipes.
+
+## Technology Stack
+
+### Backend
+- Node.js
+- Express.js
+- SQL Database
+
+### Frontend
+- Vue.js
+- Vue Router
+
+## Getting Started
+
+- **Prerequisites:** Node.js, set up SQL database.
+- **Installation:** Clone the repo, install dependencies for backend and frontend.
+- **Configuration:** Set up SQL database connection and environment variables.
+- **Usage:** Register/login to explore, create, and manage recipes.
